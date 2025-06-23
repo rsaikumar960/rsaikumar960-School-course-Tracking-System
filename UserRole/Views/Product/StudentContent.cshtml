@@ -1,0 +1,120 @@
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "List of Students";
+}
+
+
+<h2 class="text-center mb-5 text-primary font-weight-bold">List of Students</h2>
+
+
+
+
+
+<form method="get" class="mb-4">
+    
+        <div class="col-md-2">
+            <label class="form-label fw-bold">Course</label>
+            <input type="text" name="section" class="form-control" placeholder="e.g. A" value="@Context.Request.Query["section"]" />
+        </div>
+       
+        <div class="col-md-3 text-end">
+            <button type="submit" class="btn btn-primary w-100">🔍 Filter Students</button>
+        </div>
+    </div>
+</form>
+
+
+
+
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card student-card shadow border-0 h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-center text-info fw-bold">@product.Section</h5>
+                    <hr />
+                    <p class="card-text"><strong>Course:</strong> @product.Section</p>
+                    
+
+                   
+
+                    <div class="mt-4 text-center">
+                        <a asp-controller="Home" asp-action="Mpage3" class="btn btn-outline-primary w-100">🎓 Course </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Additional Styles -->
+<style>
+    /* Page background */
+    body {
+        background: linear-gradient(135deg, #e0f7fa, #ffffff);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 30px;
+    }
+
+    /* Title styling */
+    h2 {
+        font-size: 2.5rem;
+        color: #007bff;
+        letter-spacing: 1px;
+        text-shadow: 1px 1px 2px #ccc;
+    }
+
+    /* Student card style */
+    .student-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-left: 5px solid #0d6efd;
+        background: #ffffff;
+        border-radius: 8px;
+    }
+
+        .student-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+    /* Labels */
+    .form-label {
+        font-size: 0.9rem;
+        color: #333;
+    }
+
+    /* Filter box styling */
+    form .row {
+        background-color: #f0f8ff;
+        border: 1px solid #cce;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    /* Buttons */
+    .btn {
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+    /* Card title */
+    .card-title {
+        font-size: 1.3rem;
+    }
+
+    hr {
+        margin: 10px 0;
+        border-top: 2px solid #dee2e6;
+    }
+
+    .mb-4, .mb-5 {
+        margin-bottom: 2.5rem !important;
+    }
+</style>
+
+

@@ -1,0 +1,299 @@
+﻿@{
+    ViewData["Title"] = "Quiz with Certificate";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz with Certificate</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #ece9e6, #ffffff);
+            padding: 20px;
+        }
+
+        .flag-progress {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .flag-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .flag-icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .active-step .flag-icon {
+            color: green;
+        }
+
+        .flag-label {
+            font-size: 14px;
+        }
+
+        /* Progress Bar */
+        #progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #007bff;
+            transition: width 0.5s;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .question-box {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border-left: 6px solid #3498db;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .question {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .options label {
+            display: block;
+            margin: 8px 0;
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #submit-btn, #download-btn {
+            margin: 20px auto;
+            padding: 12px 25px;
+            display: block;
+            font-size: 16px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #submit-btn {
+            background-color: #28a745;
+        }
+
+        #download-btn {
+            background-color: #007bff;
+            display: none;
+        }
+
+        #certificate {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            margin-top: 30px;
+            border: 4px solid #3498db;
+            border-radius: 15px;
+            background: #ffffff;
+        }
+
+            #certificate h2 {
+                color: #2c3e50;
+            }
+
+            #certificate p {
+                font-size: 18px;
+            }
+
+        #error-message {
+            color: red;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flag-step" id="step3">
+        <span class="flag-icon">🏁</span>
+        <span class="flag-label">Quiz</span>
+    </div>
+
+    <div id="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+
+    <div id="quiz-section">
+        <h1>JavaScript Quiz</h1>
+        <div id="quiz-container"></div>
+        <button id="submit-btn">Submit</button>
+        <div id="error-message">Please select at least one answer.</div>
+    </div>
+
+    <div id="certificate">
+        <h2>🎓 Certificate of Achievement</h2>
+        <p>Congratulations! You have successfully completed the JavaScript Quiz.</p>
+        <p id="final-score"></p>
+        <p><strong>Date:</strong> <span id="date"></span></p>
+    </div>
+
+    <button id="download-btn">Download Certificate</button>
+
+    <div class="mt-4 text-center">
+        <a asp-controller="Product" asp-action="StudentContent" class="btn btn-outline-primary w-50" onclick="cancelQuiz()">Cancel</a>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1. What does HTML stand for?",
+                options: ["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language"],
+                answer: "Hyper Text Markup Language"
+            },
+            {
+                question: "2. Which language runs in a web browser?",
+                options: ["Java", "C", "Python", "JavaScript"],
+                answer: "JavaScript"
+            },
+            {
+                question: "3. What does CSS stand for?",
+                options: ["Cascading Style Sheets", "Creative Style System", "Computer Style Sheet"],
+                answer: "Cascading Style Sheets"
+            }
+        ];
+
+        const quizContainer = document.getElementById('quiz-container');
+
+        questions.forEach((q, index) => {
+            const qBox = document.createElement('div');
+            qBox.classList.add('question-box');
+
+            const qText = document.createElement('div');
+            qText.classList.add('question');
+            qText.innerText = q.question;
+
+            const optionsDiv = document.createElement('div');
+            optionsDiv.classList.add('options');
+
+            q.options.forEach(opt => {
+                const label = document.createElement('label');
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'question' + index;
+                radio.value = opt;
+                label.appendChild(radio);
+                label.appendChild(document.createTextNode(opt));
+                optionsDiv.appendChild(label);
+            });
+
+            qBox.appendChild(qText);
+            qBox.appendChild(optionsDiv);
+            quizContainer.appendChild(qBox);
+        });
+
+        document.getElementById('submit-btn').addEventListener('click', () => {
+            let score = 0;
+            let answered = false;
+
+            questions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selected) {
+                    answered = true;
+                    if (selected.value === q.answer) {
+                        score++;
+                    }
+                }
+            });
+
+            if (!answered) {
+                document.getElementById('error-message').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('certificate').style.display = 'block';
+            document.getElementById('download-btn').style.display = 'block';
+            document.getElementById('final-score').innerText = `Your Score: ${score} / ${questions.length}`;
+            document.getElementById('date').innerText = new Date().toLocaleDateString();
+
+            // Update progress to 100% when quiz is completed
+            setProgressStep(3);  // Step 3 represents the completed quiz stage
+        });
+
+        document.getElementById('download-btn').addEventListener('click', () => {
+            html2pdf().from(document.getElementById('certificate')).set({
+                margin: 1,
+                filename: 'Certificate.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            }).save();
+        });
+
+        function setProgressStep(step) {
+            sessionStorage.setItem('progressStep', step);
+            updateProgressBar(step);  // Update the progress bar when moving to a new step
+        }
+
+        function updateProgressBar(step) {
+            const progress = (step / 3) * 100; // We have 3 steps (Java Course, Why Java, Quiz)
+            document.getElementById('progress-bar').style.width = progress + '%';
+        }
+
+        // Set the progress bar width based on the current step when the page loads
+        window.onload = function () {
+            const step = parseInt(sessionStorage.getItem('progressStep')) || 1;
+
+            // Set the progress bar width based on the current step
+            updateProgressBar(step);
+
+            // Mark the completed flags
+            for (let i = 1; i <= step; i++) {
+                const el = document.getElementById(`step${i}`);
+                if (el) el.classList.add('active-step');
+            }
+        };
+
+        // Function to cancel the quiz and stop further progression
+        function cancelQuiz() {
+            // Reset the progress step and progress bar
+            sessionStorage.setItem('progressStep', 0);  // Reset the progress step to initial state
+            updateProgressBar(0);  // Reset the progress bar to 0%
+
+            // Hide quiz and certificate
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('certificate').style.display = 'none';
+            document.getElementById('download-btn').style.display = 'none';
+            document.getElementById('error-message').style.display = 'none';
+
+            // Optionally, show a confirmation or redirect
+            alert("Quiz has been cancelled.");
+            // Optionally redirect
+            // window.location.href = '/Product/StudentContent'; // Uncomment if you want to redirect
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+﻿@model Product
+@{
+    Layout = null;
+}
+
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    }
+
+    .full-screen-container {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+
+    .form-card {
+        text-align: center;
+        width: 100%;
+        max-width: 600px;
+        background-color: #ffffff;
+        padding: 2.5rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .form-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+
+    h2 {
+        font-weight: 600;
+        margin-bottom: 2rem;
+        text-align: center;
+        color: #1565c0;
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #333;
+        text-align: right;
+    }
+
+    .form-control {
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        padding: 0.5rem 0.75rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #1976d2;
+            box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.25);
+        }
+
+    .btn-primary {
+        background-color: #1976d2;
+        border-color: #1976d2;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #115293;
+            box-shadow: 0 4px 10px rgba(25, 118, 210, 0.3);
+        }
+
+    .btn-outline-secondary {
+        border-color: #90caf9;
+        color: #1976d2;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-outline-secondary:hover {
+            background-color: #e3f2fd;
+        }
+
+    .text-danger {
+        font-size: 0.875rem;
+    }
+</style>
+
+<div class="full-screen-container">
+    <div class="form-card">
+        <h2>New Student</h2>
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label form-label">Name</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="Name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label form-label">Class</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="Class" />
+                    <span asp-validation-for="Class" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label form-label">Course</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="Section" />
+                    <span asp-validation-for="Section" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="row mb-4">
+                <label class="col-sm-4 col-form-label form-label">Marks</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="Mars" />
+                    <span asp-validation-for="Mars" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <label class="col-sm-4 col-form-label form-label">StudentId</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="StudentId" />
+                    <span asp-validation-for="StudentId" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <br />
+
+            <div class="row">
+                <div class="offset-sm-4 col-sm-8 d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <a class="btn btn-outline-secondary" asp-controller="Product" asp-action="Content">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

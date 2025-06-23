@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Why Learn Java?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+
+        #progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #007bff;
+            transition: width 0.5s;
+        }
+
+
+        .flag-progress {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .flag-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .flag-icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .active-step .flag-icon {
+            color: green;
+        }
+
+        .flag-label {
+            font-size: 14px;
+        }
+
+
+
+
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-size: 16px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .mt-4 {
+            margin-top: 30px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .btn-outline-primary {
+            color: #007bff;
+            border: 2px solid #007bff;
+            background-color: transparent;
+        }
+
+            .btn-outline-primary:hover {
+                background-color: #007bff;
+                color: white;
+            }
+
+        .w-100 {
+            width: 100%;
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+
+    <div class="flag-step" id="step2">
+        <span class="flag-icon">📗</span>
+        <span class="flag-label">Why Java</span>
+    </div>
+
+
+
+    <h1>Why Learn Java?</h1>
+
+    <p>
+        <strong>Why Learn Java?</strong><br><br>
+        Java is used to build Android apps, desktop and web apps, enterprise backend systems, and cloud-based software.<br><br>
+        Java is in high demand with many job opportunities in software development.<br><br>
+        Java has popular frameworks like <strong>Spring</strong> and <strong>Hibernate</strong>, which make Java powerful for enterprise applications.<br><br>
+        Java supports object-oriented programming for clean and reusable code.<br><br>
+        It runs on all platforms — Windows, Mac, and Linux — using the JVM.<br><br>
+        Top companies like <strong>Amazon</strong>, <strong>Netflix</strong>, and <strong>LinkedIn</strong> use Java.<br><br>
+
+        Java is a high-level, object-oriented programming language used to build web apps, mobile applications, and enterprise software systems. It is known for its <strong>Write Once, Run Anywhere</strong> capability, which means code written in Java can run on any device that supports the Java Virtual Machine (JVM).<br><br>
+
+        Java syntax and structure is similar to C-based languages like C++ and C#. Its robustness, platform-independent compatibility, and strong memory management have made it a go-to language for developers worldwide.
+    </p>
+
+    <div class="mt-4 text-center">
+        <a asp-controller="Home" asp-action="Mpage5" class="btn btn-outline-primary w-100" onclick="advanceProgress(66)"> next </a>
+
+    </div>
+
+
+    <script>
+        function setProgressStep(step) {
+            sessionStorage.setItem('progressStep', step);
+            updateProgressBar(step);  // Update the progress bar when moving to a new step
+        }
+
+        function updateProgressBar(step) {
+            const progress = (step / 3) * 100; // We have 3 steps (Java Course, Why Java, Quiz)
+            document.getElementById('progress-bar').style.width = progress + '%';
+        }
+
+        window.onload = function () {
+            const step = parseInt(sessionStorage.getItem('progressStep')) || 1;
+
+            // Set the progress bar width based on current step
+            updateProgressBar(step);
+
+            // Mark the completed flags
+            for (let i = 1; i <= step; i++) {
+                const el = document.getElementById(`step${i}`);
+                if (el) el.classList.add('active-step');
+            }
+        };
+    </script>
+
+
+</body>
+</html>

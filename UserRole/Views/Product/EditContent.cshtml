@@ -1,0 +1,48 @@
+﻿@model Product
+@{
+}
+
+<div class="row">
+    <div class="col-8 mx-auto rounded border p-4 shadow" style="background-color: #f8f9fa;">
+        <h2 class="text-center mb-4 text-primary">Edit Student</h2>
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label fw-bold text-secondary">Name</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="Name" />
+                </div>
+            </div>
+
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label fw-bold text-secondary">Section</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="Section" />
+                    <span asp-validation-for="Section" class="text-danger small"></span>
+                </div>
+            </div>
+
+          
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label fw-bold text-secondary">Content</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="Section" />
+                    <span asp-validation-for="Mars" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="offset-sm-4 col-sm-4 d-grid">
+                    <button type="submit" class="btn btn-success shadow-sm">Submit</button>
+                </div>
+                <div class="col-sm-4 d-grid">
+                    <a class="btn btn-outline-secondary shadow-sm" asp-controller="Product" asp-action="content" role="button">
+                        Cancel
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

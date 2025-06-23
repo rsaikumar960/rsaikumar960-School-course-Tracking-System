@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Java Course</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        #progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            height: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #007bff;
+            transition: width 0.5s;
+        }
+
+
+        .flag-progress {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .flag-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .flag-icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .active-step .flag-icon {
+            color: green;
+        }
+
+        .flag-label {
+            font-size: 14px;
+        }
+       
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.8;
+            font-size: 16px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .mt-4 {
+            margin-top: 30px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .btn-outline-primary {
+            color: #007bff;
+            border: 2px solid #007bff;
+            background-color: transparent;
+        }
+
+            .btn-outline-primary:hover {
+                background-color: #007bff;
+                color: white;
+            }
+
+        .w-100 {
+            width: 100%;
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+
+    
+
+
+        <div id="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+
+        <div class="flag-step" id="step1">
+            <span class="flag-icon">📗</span>
+            <span class="flag-label">java course</span>
+        </div>
+
+
+                             
+    <h1>Java Course</h1>
+    <p>
+        <strong>Object-Oriented Programming (OOP) Principles:</strong><br>
+        Java is inherently object-oriented, and its design heavily relies on the four pillars of OOP:<br><br>
+        <strong>Encapsulation:</strong> Bundling data and the methods that operate on that data within a single unit (a class), and restricting direct access to the internal state of an object.<br>
+        <strong>Inheritance:</strong> Allowing a new class (subclass) to inherit properties and behaviors from an existing class (superclass), promoting code reusability.<br>
+        <strong>Polymorphism:</strong> Enabling objects of different classes to be treated as objects of a common type, often achieved through method overloading and overriding.<br>
+        <strong>Abstraction:</strong> Hiding complex implementation details and exposing only essential information to the user, typically through abstract classes and interfaces.<br><br>
+
+        <strong>Platform Independence:</strong><br>
+        Java’s code can run on any platform with a Java Virtual Machine (JVM). This is achieved by compiling Java source code into platform-independent bytecode.<br><br>
+
+        <strong>Memory Management:</strong><br>
+        Java handles memory automatically through garbage collection, preventing memory leaks.<br><br>
+
+        <strong>Concurrency and Multithreading:</strong><br>
+        Java supports multithreading to run multiple parts of a program simultaneously.<br><br>
+
+        <strong>Exception Handling:</strong><br>
+        Java includes mechanisms for handling runtime errors gracefully without crashing the application.<br><br>
+
+        <strong>Java Development Kit (JDK), Java Runtime Environment (JRE), and Java Virtual Machine (JVM):</strong><br>
+        JDK provides tools to develop Java apps, JRE runs them, and JVM executes the bytecode.<br><br>
+
+        <strong>Core Java Concepts:</strong><br>
+        Covers data types, variables, operators, control flow, methods, arrays, strings, and more foundational knowledge for Java development.
+    </p>
+
+    <div class="mt-4 text-center">
+            <a asp-controller="Home" asp-action="Mpage4" class="btn btn-outline-primary w-100" onclick="setProgressStep(2)">Next</a>
+
+
+    </div>
+
+        <script>
+            function setProgressStep(step) {
+                sessionStorage.setItem('progressStep', step);
+                updateProgressBar(step);  // Update the progress bar when moving to a new step
+            }
+
+            function updateProgressBar(step) {
+                const progress = (step / 3) * 100; // We have 3 steps (Java Course, Why Java, Quiz)
+                document.getElementById('progress-bar').style.width = progress + '%';
+            }
+
+            window.onload = function () {
+                const step = parseInt(sessionStorage.getItem('progressStep')) || 1;
+
+                // Set the progress bar width based on current step
+                updateProgressBar(step);
+
+                // Mark the completed flags
+                for (let i = 1; i <= step; i++) {
+                    const el = document.getElementById(`step${i}`);
+                    if (el) el.classList.add('active-step');
+                }
+            };
+        </script>
+
+
+</body>
+</html>
